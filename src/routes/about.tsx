@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { pageMeta } from "@/lib/seo";
 import { PageHero, EmergencyCTA } from "@/components/site/Sections";
-import work1 from "@/assets/work-1.jpg.asset.json";
-import work3 from "@/assets/work-3.jpg.asset.json";
+import work1 from "@/assets/work-1.jpg";
+import work3 from "@/assets/work-3.jpg";
 
 export const Route = createFileRoute("/about")({
   head: () =>
@@ -53,13 +53,13 @@ function About() {
           </div>
           <div className="grid gap-4">
             <img
-              src={work1.url}
+              src={work1}
               alt="نقل حمولة كبيرة بسطحة"
               loading="lazy"
               className="h-64 w-full rounded-2xl object-cover shadow-card"
             />
             <img
-              src={work3.url}
+              src={work3}
               alt="عمل ميداني لونش الإنقاذ"
               loading="lazy"
               className="h-64 w-full rounded-2xl object-cover shadow-card"

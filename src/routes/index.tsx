@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Phone, ShieldCheck, Clock, Gauge, MapPin, ArrowLeft } from "lucide-react";
-import work2 from "@/assets/work-2.jpg.asset.json";
-import work4 from "@/assets/work-4.jpg.asset.json";
-import work5 from "@/assets/work-5.jpg.asset.json";
-import work6 from "@/assets/work-6.jpg.asset.json";
+import work2 from "@/assets/work-2.jpg";
+import work4 from "@/assets/work-4.jpg";
+import work5 from "@/assets/work-5.jpg";
+import work6 from "@/assets/work-6.jpg";
 import { COVERAGE, SERVICES, SITE, TRUST, telSecondary } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
 import { PhoneButton, WhatsAppButton } from "@/components/site/Buttons";
@@ -29,7 +29,7 @@ function Home() {
     <>
       <section className="relative overflow-hidden bg-ink text-ink-foreground">
         <img
-          src={work4.url}
+          src={work4}
           alt="سطحة نقل معدات ثقيلة تابعة لونش إنقاذ الإسماعيلية"
           className="absolute inset-0 size-full object-cover opacity-35"
           fetchPriority="high"
@@ -145,7 +145,7 @@ function Home() {
             {[work4, work2, work5, work6].map((img, i) => (
               <img
                 key={i}
-                src={img.url}
+                src={img}
                 alt="نقل معدات ثقيلة بسطحة"
                 loading="lazy"
                 className="h-40 w-full rounded-2xl object-cover md:h-52"
