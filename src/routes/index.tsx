@@ -145,7 +145,7 @@ function Home() {
             {[work4, work2, work5, work6].map((img, i) => (
               <img
                 key={i}
-                src={img.url}
+                src={img}
                 alt="نقل معدات ثقيلة بسطحة"
                 loading="lazy"
                 className="h-40 w-full rounded-2xl object-cover md:h-52"
