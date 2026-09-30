@@ -12,4 +12,8 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  // Self-hosted builds (Coolify/Nixpacks) need a real Node HTTP server; the default
+  // cloudflare-module output only exports a fetch handler, so `node .output/server/index.mjs`
+  // exits immediately. Lovable's own build environment still forces its cloudflare preset.
+  nitro: { preset: "node-server" },
 });
