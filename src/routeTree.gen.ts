@@ -11,6 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as CoverageIndexRouteImport } from './routes/coverage.index'
+import { Route as CoverageSlugRouteImport } from './routes/coverage.$slug'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 
@@ -22,6 +25,21 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoverageIndexRoute = CoverageIndexRouteImport.update({
+  id: '/coverage/',
+  path: '/coverage/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoverageSlugRoute = CoverageSlugRouteImport.update({
+  id: '/coverage/$slug',
+  path: '/coverage/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesIndexRoute = ServicesIndexRouteImport.update({
@@ -38,34 +56,68 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/coverage/$slug': typeof CoverageSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/blog/': typeof BlogIndexRoute
+  '/coverage/': typeof CoverageIndexRoute
   '/services/': typeof ServicesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/coverage/$slug': typeof CoverageSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/blog': typeof BlogIndexRoute
+  '/coverage': typeof CoverageIndexRoute
   '/services': typeof ServicesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/coverage/$slug': typeof CoverageSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/blog/': typeof BlogIndexRoute
+  '/coverage/': typeof CoverageIndexRoute
   '/services/': typeof ServicesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/services/$slug' | '/services/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/coverage/$slug'
+    | '/services/$slug'
+    | '/blog/'
+    | '/coverage/'
+    | '/services/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/services/$slug' | '/services'
-  id: '__root__' | '/' | '/about' | '/services/$slug' | '/services/'
+  to:
+    | '/'
+    | '/about'
+    | '/coverage/$slug'
+    | '/services/$slug'
+    | '/blog'
+    | '/coverage'
+    | '/services'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/coverage/$slug'
+    | '/services/$slug'
+    | '/blog/'
+    | '/coverage/'
+    | '/services/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  CoverageSlugRoute: typeof CoverageSlugRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
+  BlogIndexRoute: typeof BlogIndexRoute
+  CoverageIndexRoute: typeof CoverageIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
 }
 
@@ -83,6 +135,27 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/coverage/': {
+      id: '/coverage/'
+      path: '/coverage'
+      fullPath: '/coverage/'
+      preLoaderRoute: typeof CoverageIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/coverage/$slug': {
+      id: '/coverage/$slug'
+      path: '/coverage/$slug'
+      fullPath: '/coverage/$slug'
+      preLoaderRoute: typeof CoverageSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services/': {
@@ -105,7 +178,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  CoverageSlugRoute: CoverageSlugRoute,
   ServicesSlugRoute: ServicesSlugRoute,
+  BlogIndexRoute: BlogIndexRoute,
+  CoverageIndexRoute: CoverageIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
 }
 export const routeTree = rootRouteImport
