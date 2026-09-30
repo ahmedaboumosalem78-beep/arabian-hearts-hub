@@ -32,8 +32,12 @@ function Home() {
         <img
           src={banner.url}
           alt="ونش إنقاذ الإسماعيلية - سطحة برتقالية تحمل سيارة"
-          className="absolute inset-0 size-full object-cover opacity-30"
+          className="absolute inset-0 size-full object-cover object-left opacity-25"
           fetchPriority="high"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-l from-[oklch(0.16_0.006_250/0.96)] via-[oklch(0.16_0.006_250/0.85)] to-[oklch(0.16_0.006_250/0.45)]"
+          aria-hidden
         />
         <div className="relative container-x py-16 md:py-24">
           <span className="inline-flex items-center gap-2 rounded-full bg-orange-band px-4 py-1.5 text-sm font-bold text-primary-foreground">
