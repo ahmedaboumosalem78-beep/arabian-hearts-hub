@@ -78,7 +78,7 @@ export function ServiceCard({ service }: { service: Service }) {
       <h3 className="mt-4 text-lg font-extrabold">{service.title}</h3>
       <p className="mt-2 flex-1 text-sm leading-7 text-muted-foreground">{service.short}</p>
       <Link
-        to={service.to}
+        to="/services/$slug" params={{ slug: service.slug }}
         className="mt-5 inline-flex items-center gap-1 font-bold text-primary"
       >
         اطلب الخدمة
@@ -96,7 +96,7 @@ export function CoverageCard({ area }: { area: Coverage }) {
         <h3 className="text-lg font-extrabold text-foreground">{area.title}</h3>
       </span>
       <p className="mt-3 text-sm leading-7 text-muted-foreground">{area.short}</p>
-      <Link to={area.to} className="mt-5 inline-flex items-center gap-1 font-bold text-primary">
+      <Link to="/coverage/$slug" params={{ slug: area.slug }} className="mt-5 inline-flex items-center gap-1 font-bold text-primary">
         تفاصيل التغطية
         <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-1" aria-hidden />
       </Link>

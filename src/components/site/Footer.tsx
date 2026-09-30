@@ -28,7 +28,7 @@ export function Footer() {
           <ul className="space-y-2 text-sm">
             {SERVICES.map((s) => (
               <li key={s.slug}>
-                <Link to={s.to} className="hover:text-primary">
+                <Link to="/services/$slug" params={{ slug: s.slug }} className="hover:text-primary">
                   {s.title}
                 </Link>
               </li>
@@ -41,7 +41,7 @@ export function Footer() {
           <ul className="space-y-2 text-sm">
             {COVERAGE.map((c) => (
               <li key={c.slug}>
-                <Link to={c.to} className="hover:text-primary">
+                <Link to="/coverage/$slug" params={{ slug: c.slug }} className="hover:text-primary">
                   {c.title}
                 </Link>
               </li>
