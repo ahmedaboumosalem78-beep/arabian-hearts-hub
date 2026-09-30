@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Phone, ShieldCheck, Clock, Gauge, MapPin, ArrowLeft } from "lucide-react";
-import banner from "@/assets/hero-banner.png.asset.json";
 import work2 from "@/assets/work-2.jpg.asset.json";
 import work4 from "@/assets/work-4.jpg.asset.json";
 import work5 from "@/assets/work-5.jpg.asset.json";
@@ -30,9 +29,9 @@ function Home() {
     <>
       <section className="relative overflow-hidden bg-ink text-ink-foreground">
         <img
-          src={banner.url}
-          alt="ونش إنقاذ الإسماعيلية - سطحة برتقالية تحمل سيارة"
-          className="absolute inset-0 size-full object-cover object-left opacity-25"
+          src={work4.url}
+          alt="سطحة نقل معدات ثقيلة تابعة لونش إنقاذ الإسماعيلية"
+          className="absolute inset-0 size-full object-cover opacity-35"
           fetchPriority="high"
         />
         <div
