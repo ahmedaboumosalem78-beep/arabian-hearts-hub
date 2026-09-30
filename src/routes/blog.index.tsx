@@ -2,13 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import { pageMeta } from "@/lib/seo";
 import { POSTS } from "@/lib/site";
 import { BlogCard, EmergencyCTA, PageHero } from "@/components/site/Sections";
-import work1 from "@/assets/work-1.jpg.asset.json";
-import work2 from "@/assets/work-2.jpg.asset.json";
-import work3 from "@/assets/work-3.jpg.asset.json";
-import work4 from "@/assets/work-4.jpg.asset.json";
-import work5 from "@/assets/work-5.jpg.asset.json";
+import work1 from "@/assets/work-1.jpg";
+import work2 from "@/assets/work-2.jpg";
+import work3 from "@/assets/work-3.jpg";
+import work4 from "@/assets/work-4.jpg";
+import work5 from "@/assets/work-5.jpg";
 
-const POST_IMAGES = [work3.url, work2.url, work4.url, work1.url, work5.url];
+const POST_IMAGES = [work3, work2, work4, work1, work5];
 
 export function postImage(index: number): string {
   return POST_IMAGES[index % POST_IMAGES.length] ?? POST_IMAGES[0]!;

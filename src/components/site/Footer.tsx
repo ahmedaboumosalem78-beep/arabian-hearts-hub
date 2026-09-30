@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Phone, MapPin, Clock } from "lucide-react";
-import logo from "@/assets/logo.png.asset.json";
+import logo from "@/assets/logo.png";
 import { COVERAGE, SERVICES, SITE, telPrimary, telSecondary } from "@/lib/site";
 
 export function Footer() {
@@ -9,7 +9,7 @@ export function Footer() {
       <div className="container-x grid gap-10 py-14 md:grid-cols-4">
         <div className="md:col-span-1">
           <img
-            src={logo.url}
+            src={logo}
             alt={SITE.nameAr}
             className="size-20 rounded-full object-contain"
             width={80}

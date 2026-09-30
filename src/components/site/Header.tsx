@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X, Phone, Clock } from "lucide-react";
-import logo from "@/assets/logo.png.asset.json";
+import logo from "@/assets/logo.png";
 import { NAV, SITE, telPrimary, telSecondary } from "@/lib/site";
 
 export function Header() {
@@ -32,7 +32,7 @@ export function Header() {
         <div className="container-x grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 py-3">
           <Link to="/" className="flex min-w-0 items-center gap-3">
             <img
-              src={logo.url}
+              src={logo}
               alt={`${SITE.brandAr} - ${SITE.nameAr}`}
               className="size-12 shrink-0 rounded-full object-contain sm:size-14"
               width={56}
