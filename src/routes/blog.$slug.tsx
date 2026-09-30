@@ -2,13 +2,14 @@ import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { breadcrumbLd, jsonLd, pageMeta } from "@/lib/seo";
 import { POSTS, SITE } from "@/lib/site";
 import { EmergencyCTA, PageHero } from "@/components/site/Sections";
-import { POST_IMAGES } from "./blog.index";
+import { postImage } from "./blog.index";
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: ({ params }) => {
     const index = POSTS.findIndex((p) => p.slug === params.slug);
-    if (index === -1) throw notFound();
-    return { post: POSTS[index], image: POST_IMAGES[index % POST_IMAGES.length] };
+    const found = POSTS[index];
+    if (!found) throw notFound();
+    return { post: found, image: postImage(index) };
   },
   head: ({ params, loaderData }) => {
     const post = loaderData?.post;

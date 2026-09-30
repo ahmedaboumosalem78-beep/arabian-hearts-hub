@@ -8,7 +8,11 @@ import work3 from "@/assets/work-3.jpg.asset.json";
 import work4 from "@/assets/work-4.jpg.asset.json";
 import work5 from "@/assets/work-5.jpg.asset.json";
 
-export const POST_IMAGES = [work3.url, work2.url, work4.url, work1.url, work5.url];
+const POST_IMAGES = [work3.url, work2.url, work4.url, work1.url, work5.url];
+
+export function postImage(index: number): string {
+  return POST_IMAGES[index % POST_IMAGES.length] ?? POST_IMAGES[0]!;
+}
 
 export const Route = createFileRoute("/blog/")({
   head: () =>
@@ -32,7 +36,7 @@ function BlogIndex() {
       <section className="section bg-background">
         <div className="container-x grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {POSTS.map((p, i) => (
-            <BlogCard key={p.slug} post={p} image={POST_IMAGES[i % POST_IMAGES.length]} />
+            <BlogCard key={p.slug} post={p} image={postImage(i)} />
           ))}
         </div>
       </section>
