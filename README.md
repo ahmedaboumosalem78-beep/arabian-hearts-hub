@@ -1,29 +1,48 @@
-# Welcome to your Lovable project
+# ونش إنقاذ الإسماعيلية — عمار أبو مسلم
 
-This project was built with [Lovable](https://lovable.dev).
+موقع عربي (RTL) لخدمات إنقاذ وسحب ونقل السيارات ونقل المعدات الثقيلة في الإسماعيلية والعاشر من رمضان ومحور 30 يونيو وطريق القاهرة الإسماعيلية.
 
-## Build with Lovable
+## التقنيات
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+- TanStack Start (React 19 + Vite 7) — وليس Next.js
+- Tailwind CSS v4
+- TypeScript
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+## التشغيل محليًا
 
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+```bash
+npm install
+npm run dev      # http://localhost:8080
+npm run build    # بناء الإنتاج
+npm run preview  # تشغيل نسخة الإنتاج محليًا
 ```
 
-## Built with
+## بنية المحتوى
 
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
+كل نصوص الموقع في ملفات منفصلة لتسهيل التعديل لاحقًا أو ربطها بنظام إدارة محتوى:
+
+- `src/lib/site.ts` — الأرقام، القائمة، الخدمات، المناطق، المقالات
+- `src/lib/content.ts` — محتوى صفحات الخدمات ومناطق التغطية
+- `src/lib/seo.ts` — توليد بيانات السيو والـ JSON-LD
+- `src/components/site/` — الهيدر، الفوتر، الأزرار، الكروت، أقسام الصفحات
+- `src/routes/` — الصفحات، ومنها `sitemap[.]xml.ts` لتوليد خريطة الموقع
+
+## الصور
+
+الصور مرفوعة على CDN عبر ملفات المؤشرات في `src/assets/*.asset.json`. لتغيير صورة ارفع بديلها وحدّث الملف المقابل.
+
+## السيو
+
+- عنوان ووصف وكانونيكال وOpen Graph وTwitter لكل صفحة
+- بيانات منظمة JSON-LD: نشاط الإنقاذ، مسار التصفح، مقالات المدونة
+- `/robots.txt` و `/sitemap.xml` يعملان تلقائيًا
+
+## النشر
+
+الموقع يُنشر من داخل Lovable بزر Publish (استضافة وSSL ودومين مخصص من إعدادات المشروع).
+
+ملاحظة: الطلب الأصلي ذكر أوامر Next.js على Cloudways/cPanel. هذا المشروع مبني على TanStack Start، لذلك أوامر `next build` / `next start` لا تنطبق. لو رغبت في استضافة خارجية تدعم Node.js، استخدم `npm run build` ثم شغّل ملف السيرفر الناتج داخل `.output/` (أو اطلب تجهيز إعدادات الاستضافة الخارجية).
+
+## تحديث الموقع لاحقًا
+
+عدّل النصوص في `src/lib/site.ts` و `src/lib/content.ts` ثم أعد النشر.
