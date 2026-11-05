@@ -15,3 +15,4 @@
 - Page metadata is built with `pageMeta()` / JSON-LD helpers in `src/lib/seo.ts` so every route stays SEO-consistent.
 - Shared UI lives in `src/components/site/`; the root route renders Header, Footer and the sticky call/WhatsApp bars once.
 - Images are real files in src/assets imported directly (no .asset.json/CDN pointers) — site must be self-hostable on Coolify.
+- Keep the self-hosted PHP/SQLite CMS as a separate deliverable/repository so the TanStack frontend and its Coolify deployment remain unchanged.
