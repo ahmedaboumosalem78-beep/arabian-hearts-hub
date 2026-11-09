@@ -25,7 +25,9 @@ if ($path === '/install' || $path === '/') {
             $pdo->commit();
             chmod(DB_PATH, 0640);
             session_regenerate_id(true);
-            $_SESSION['user_id'] = (int)$pdo->lastInsertId();
+            $userStmt = $pdo->prepare('SELECT id FROM users WHERE email = ?');
+            $userStmt->execute([$email]);
+            $_SESSION['user_id'] = (int)$userStmt->fetchColumn();
             flash('تم إعداد اللوحة بنجاح.'); go('/admin');
         } catch (Throwable $error) {
             if (isset($pdo) && $pdo->inTransaction()) $pdo->rollBack();
