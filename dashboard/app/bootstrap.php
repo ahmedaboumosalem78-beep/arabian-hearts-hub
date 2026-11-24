@@ -45,12 +45,35 @@ const SITE_URL = 'https://ammar.company';
 function migrate(PDO $pdo): void
 {
     $version = (int)$pdo->query('PRAGMA user_version')->fetchColumn();
-    if ($version >= 1) return;
+    if ($version >= 2) return;
     $columns = array_column($pdo->query('PRAGMA table_info(content)')->fetchAll(), 'name');
-    foreach (['seo_title', 'keyword'] as $column) {
+    // publish_at (UTC) holds a future publishing time; empty means "as soon as published".
+    foreach (['seo_title', 'keyword', 'publish_at'] as $column) {
         if (!in_array($column, $columns, true)) $pdo->exec("ALTER TABLE content ADD COLUMN $column TEXT NOT NULL DEFAULT ''");
     }
-    $pdo->exec('PRAGMA user_version = 1');
+    $pdo->exec('PRAGMA user_version = 2');
+}
+
+const SITE_TIMEZONE = 'Africa/Cairo';
+
+/** Converts the form's local date-time (Cairo) to a UTC timestamp; null when invalid. */
+function local_to_utc(string $local): ?string
+{
+    $date = DateTime::createFromFormat('Y-m-d\TH:i', $local, new DateTimeZone(SITE_TIMEZONE));
+    return $date ? $date->setTimezone(new DateTimeZone('UTC'))->format('Y-m-d H:i:s') : null;
+}
+
+/** Converts a stored UTC timestamp to Cairo time in the given format. */
+function utc_to_local(string $utc, string $format = 'Y-m-d\TH:i'): string
+{
+    if ($utc === '') return '';
+    $date = DateTime::createFromFormat('Y-m-d H:i:s', $utc, new DateTimeZone('UTC'));
+    return $date ? $date->setTimezone(new DateTimeZone(SITE_TIMEZONE))->format($format) : '';
+}
+
+function is_scheduled(array $row): bool
+{
+    return ($row['status'] ?? '') === 'published' && ($row['publish_at'] ?? '') !== '' && $row['publish_at'] > gmdate('Y-m-d H:i:s');
 }
 
 // Builds a URL slug from a title; Arabic letters are kept.
