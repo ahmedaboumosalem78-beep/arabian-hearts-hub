@@ -35,7 +35,42 @@ function db(): PDO
     ]);
     $pdo->exec('PRAGMA foreign_keys = ON');
     $pdo->exec('PRAGMA busy_timeout = 5000');
+    migrate($pdo);
     return $pdo;
+}
+
+// Public website that renders the published posts.
+const SITE_URL = 'https://ammar.company';
+
+function migrate(PDO $pdo): void
+{
+    $version = (int)$pdo->query('PRAGMA user_version')->fetchColumn();
+    if ($version >= 1) return;
+    $columns = array_column($pdo->query('PRAGMA table_info(content)')->fetchAll(), 'name');
+    foreach (['seo_title', 'keyword'] as $column) {
+        if (!in_array($column, $columns, true)) $pdo->exec("ALTER TABLE content ADD COLUMN $column TEXT NOT NULL DEFAULT ''");
+    }
+    $pdo->exec('PRAGMA user_version = 1');
+}
+
+// Builds a URL slug from a title; Arabic letters are kept.
+function make_slug(string $text): string
+{
+    $slug = preg_replace('/[^\p{L}\p{N}]+/u', '-', trim($text)) ?? '';
+    return mb_substr(trim(mb_strtolower($slug), '-'), 0, 100);
+}
+
+function valid_slug(string $slug): bool
+{
+    return mb_strlen($slug) >= 2 && mb_strlen($slug) <= 100
+        && preg_match('/^[\p{L}\p{N}]+(?:-[\p{L}\p{N}]+)*$/u', $slug) === 1
+        && preg_match('/^page\d+$/', $slug) !== 1; // reserved for the site's pagination
+}
+
+function absolute_url(string $path): string
+{
+    if ($path === '' || preg_match('#^https?://#', $path)) return $path;
+    return 'https://' . ($_SERVER['HTTP_HOST'] ?? 'dashboard.ammar.company') . $path;
 }
 
 function e(mixed $value): string

@@ -1,18 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { COVERAGE, POSTS, SERVICES } from "@/lib/site";
+import { COVERAGE, SERVICES } from "@/lib/site";
+import { loadDashboardPosts, mergePosts } from "@/lib/dashboard-posts";
 
 const STATIC = ["/", "/about", "/services", "/coverage", "/blog", "/contact"];
 
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
-      GET: ({ request }) => {
+      GET: async ({ request }) => {
+        const posts = mergePosts(await loadDashboardPosts());
         const origin = new URL(request.url).origin;
         const paths = [
           ...STATIC,
           ...SERVICES.map((s) => `/services/${s.slug}`),
           ...COVERAGE.map((c) => `/coverage/${c.slug}`),
-          ...POSTS.map((p) => `/blog/${p.slug}`),
+          ...posts.map((p) => `/blog/${encodeURIComponent(p.slug)}`),
         ];
         const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

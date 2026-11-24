@@ -2,26 +2,31 @@ import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { breadcrumbLd, jsonLd, pageMeta } from "@/lib/seo";
 import { POSTS, SITE } from "@/lib/site";
 import { EmergencyCTA, PageHero } from "@/components/site/Sections";
-import { postImage } from "./blog.index";
+import { getDashboardPost, getDashboardSummaries, mergePosts, type BlogPost } from "@/lib/dashboard-posts";
+import { postCover } from "./blog.index";
 
 export const Route = createFileRoute("/blog/$slug")({
-  loader: ({ params }) => {
-    const index = POSTS.findIndex((p) => p.slug === params.slug);
-    const found = POSTS[index];
+  loader: async ({ params }) => {
+    const remote = await getDashboardSummaries();
+    // Posts shipped with the site win; anything else may be a dashboard post.
+    const found: BlogPost | null =
+      POSTS.find((p) => p.slug === params.slug) ?? (await getDashboardPost({ data: params.slug }));
     if (!found) throw notFound();
-    return { post: found, image: postImage(index) };
+    return { post: found, image: postCover(found), remote };
   },
   head: ({ params, loaderData }) => {
     const post = loaderData?.post;
     const path = `/blog/${params.slug}`;
     if (!post) return {};
+    const meta = pageMeta({
+      title: post.seoTitle ?? `${post.title} | ${SITE.nameAr}`,
+      description: post.excerpt,
+      path,
+      type: "article",
+    });
     return {
-      ...pageMeta({
-        title: `${post.title} | ${SITE.nameAr}`,
-        description: post.excerpt,
-        path,
-        type: "article",
-      }),
+      ...meta,
+      meta: post.image ? [...meta.meta, { property: "og:image", content: post.image }] : meta.meta,
       scripts: [
         jsonLd({
           "@context": "https://schema.org",
@@ -46,8 +51,10 @@ export const Route = createFileRoute("/blog/$slug")({
 });
 
 function PostPage() {
-  const { post, image } = Route.useLoaderData();
-  const related = POSTS.filter((p) => p.slug !== post.slug).slice(0, 3);
+  const { post, image, remote } = Route.useLoaderData();
+  const related = mergePosts(remote)
+    .filter((p) => p.slug !== post.slug)
+    .slice(0, 3);
 
   return (
     <>
@@ -77,9 +84,23 @@ function PostPage() {
             </time>
           </p>
           <div className="mt-4 space-y-4 text-base leading-8 text-muted-foreground">
-            {post.body.map((p) => (
-              <p key={p}>{p}</p>
-            ))}
+            {post.blocks
+              ? post.blocks.map((block, i) =>
+                  block.type === "heading" ? (
+                    <h2 key={i} className="pt-4 text-xl font-extrabold text-foreground">
+                      {block.text}
+                    </h2>
+                  ) : block.type === "list" ? (
+                    <ul key={i} className="list-disc space-y-2 pr-6">
+                      {block.items.map((item, j) => (
+                        <li key={j}>{item}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p key={i}>{block.text}</p>
+                  ),
+                )
+              : post.body.map((p) => <p key={p}>{p}</p>)}
           </div>
 
           <h2 className="mt-12 text-xl font-extrabold text-foreground">مقالات ذات صلة</h2>
