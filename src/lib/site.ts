@@ -2,6 +2,8 @@ export const SITE = {
   nameAr: "ونش إنقاذ الإسماعيلية",
   brandAr: "عمار أبو مسلم",
   nameEn: "Ismailia Rescue Tow",
+  // Public origin, used for canonical links, Open Graph URLs and the sitemap.
+  url: "https://ammar.company",
   tagline: "إنقاذ وسحب ونقل السيارات والمعدات",
   phonePrimary: "01231035306",
   phoneSecondary: "01231035305",

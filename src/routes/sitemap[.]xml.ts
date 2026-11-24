@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { COVERAGE, SERVICES } from "@/lib/site";
+import { COVERAGE, SERVICES, SITE } from "@/lib/site";
 import { loadDashboardPosts, mergePosts } from "@/lib/dashboard-posts";
 
 const STATIC = ["/", "/about", "/services", "/coverage", "/blog", "/contact"];
@@ -7,9 +7,10 @@ const STATIC = ["/", "/about", "/services", "/coverage", "/blog", "/contact"];
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
-      GET: async ({ request }) => {
+      GET: async () => {
         const posts = mergePosts(await loadDashboardPosts());
-        const origin = new URL(request.url).origin;
+        // Use the public origin: behind the host's proxy the request URL is http://.
+        const origin = SITE.url;
         const paths = [
           ...STATIC,
           ...SERVICES.map((s) => `/services/${s.slug}`),

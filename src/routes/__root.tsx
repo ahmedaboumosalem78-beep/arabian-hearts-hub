@@ -112,7 +112,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           additionalType: "https://schema.org/AutoTowing",
           name: SITE.nameAr,
           alternateName: SITE.nameEn,
-          url: "/",
+          url: SITE.url + "/",
           telephone: [`+2${SITE.phonePrimary}`, `+2${SITE.phoneSecondary}`],
           areaServed: [
             "الإسماعيلية",
